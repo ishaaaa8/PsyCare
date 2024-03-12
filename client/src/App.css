@@ -1,0 +1,9 @@
+.app{
+    display: flex;
+    flex-direction: column;
+    color: black;
+    /* align-items: center; */
+    /* align-items: flex-start;
+     */
+     justify-content: flex-start;
+}
