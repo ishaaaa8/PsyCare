@@ -11,16 +11,26 @@ export default function Home() {
  
   const [posts,setPosts] = useState([]);
   const {search} = useLocation();
-  // console.log(location);
+  console.log(search);
+  // useEffect(() => {
+  //   const fetch=async () => {
+  //     const response = await axios.get('/posts'+search)
+  //     console.log(response.data);
+  //     setPosts(response.data)
+  //   };
+  //   fetch()
+  // },[search])
   useEffect(() => {
-    const fetch=async () => {
-      const response = await axios.get('/posts'+search)
-      // console.log(response.data);
-      setPosts(response.data)
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get('/posts', { params: { search } });
+        setPosts(response.data);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
     };
-    fetch()
-  },[search])
-
+    fetchPosts();
+  }, [search]);
 
 
   return (

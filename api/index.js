@@ -8,9 +8,25 @@ const userRoute=require("./routes/users");
 const postRoute=require("./routes/posts");
 const categoriesRoute=require("./routes/categories");
 const multer=require("multer");
+const cors = require("cors");
 dotenv.config();
-app.use(express.json());
 
+app.use((req, res, next) => {
+    // Access the headers object
+    const headers = req.headers;
+  
+    // Find the number of headers
+    const headerCount = Object.keys(headers).length;
+  
+    // Log or handle the header count as needed
+    console.log('Number of headers:', headerCount);
+  
+    // Pass control to the next middleware
+    next();
+  });
+
+app.use(express.json());
+app.use(cors({origin: "http://localhost:3000/"}))
 
 
 const url=process.env.MONGO_URL;
@@ -27,10 +43,13 @@ const storage=multer.diskStorage({
     },
 });
 
-const upload=multer({storage:storage});
-app.post("/api/upload",upload.single("file"),(req,res) => {
-    res.status(200).json("file uploaded");
-})
+// const upload=multer({storage:storage});
+
+
+  
+// app.post("/api/upload",upload.single("file"),(req,res) => {
+//     res.status(200).json("file uploaded");
+// })
 
 app.use("/api/auth",authRoute);
 app.use("/api/users",userRoute);
